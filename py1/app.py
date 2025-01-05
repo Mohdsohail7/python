@@ -55,5 +55,71 @@ def getEmail():
     email = f"{firstName}.{lastName}@{domain}"
     return email
 
+
+    # Send a custom commit message
+@app.route("/custom-commit", methods = ["GET"])
+def customMessage():
+    type = request.args.get("type", "")
+    message = request.args.get("message", "")
+    messageCommit = f"{type}: {message}"
+    return messageCommit
+
+# Generate certificate for students
+@app.route("/certificate", methods=["GET"])
+def studentCertificate():
+    firstName = request.args.get("firstName", "")
+    lastName = request.args.get("lastName", "")
+    courseName = request.args.get("courseName", "")
+    issuedCertificate = f"This certification is awarded to {firstName} {lastName} for completing the course {courseName}"
+    return issuedCertificate
+
+# Configure a custom out-of-office message
+@app.route("/autoreply", methods = ["GET"])
+def officeMessage():
+    startMonth = request.args.get("startMonth", "")
+    endMonth = request.args.get("endMonth", "")
+    message = f"""Dear customer, thank you for reaching out to me.
+Unfortunately, I'm out of office from {startMonth} till {endMonth}. Your enquiry will be resolved by another colleague."""
+    return message
+
+# Send a secure URL
+@app.route("/secureurl", methods = ["GET"])
+def secureUrl():
+    domain = request.args.get("domain", "")
+    result = f"https://{domain}"
+    return result
+
+# Send a verification OTP
+@app.route("/sendotp", methods = ["GET"])
+def optSend():
+    otpCode = request.args.get("otpCode", "")
+    result = f"Your OTP for account verification is {otpCode}. Do not share this with anyone"
+    return result
+
+# Send a welcome mail to new user
+@app.route("/welcome", methods = ["GET"])
+def welcome():
+    firstName = request.args.get("firstName", "")
+    email = request.args.get("email", "")
+    result =f"Hey {firstName}. We're excited to have you here, we'll send future notifications to your registered mail ({email})"
+    return result
+
+# Generate Github profile URL
+@app.route("/github-profile", methods = ["GET"])
+def gitHub():
+    userName = request.args.get("userName", "")
+    result = f"https://github.com/{userName}"
+    return result
+
+# Convert text into CSV row format
+@app.route("/text-to-csv", methods = ["GET"])
+def textToCsv():
+    id = request.args.get("id", "")
+    email = request.args.get("email", "")
+    rollNumber = request.args.get("rollNumber", "")
+    result = f"{id}, {email}, {rollNumber}"
+    return result
+
+
 if __name__ == "__main__":
     app.run()
