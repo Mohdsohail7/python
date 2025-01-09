@@ -46,16 +46,16 @@ def check_discount():
     return result
 
 # Create an endpoint that takes work experience (in years) as a query parameter and returns whether the person is experienced, fresher, or non-working.
-@app.route("/check-experience", methods = ["GET"])
-def check_experience():
-    years = int(request.args.get("years", 0))
-    if years > 0:
-        result = "experienced"
-    elif years < 0:
-        result = "non-working"
-    else:
-        result = "fresher"
-    return f"Person is {result}"
+# @app.route("/check-experience", methods = ["GET"])
+# def check_experience():
+#     years = int(request.args.get("years", 0))
+#     if years > 0:
+#         result = "experienced"
+#     elif years < 0:
+#         result = "non-working"
+#     else:
+#         result = "fresher"
+#     return f"Person is {result}"
 
 # Create an endpoint that takes the result as a query parameter and returns whether the grade is Grade A (above 80), B (between 50 to 80), or Fail (below 50).
 @app.route("/check-result", methods = ["GET"])
@@ -95,6 +95,89 @@ def check_rating():
     else:
         result = "high"
     return f"Restaurant rating is {result}"
+
+
+# Check a person's BMI category
+# Calculate a person’s BMI category given weight (kilograms) and height(meters)
+@app.route("/check-bmi", methods = ["GET"])
+def check_Bmi():
+    weight = float(request.args.get("weight", 0))
+    height = float(request.args.get("height", 0))
+    bmi = weight / (height * height)
+    if bmi < 18.5:
+        result = "Under"
+    elif bmi < 24.9:
+        result = "Normal"
+    else: 
+        result = "Over"
+    return f"BMI category is {result} weight"
+
+# 2. Check academic performance based on grades
+# Calculate a student’s academic performance based on their grade
+@app.route("/check-performance", methods = ["GET"])
+def check_performance():
+    grade = int(request.args.get("grade", 0))
+    if grade >= 90:
+        result = "excellent"
+    elif grade >= 75:
+        result = "Good"
+    elif grade >= 50:
+        result = "average"
+    else:
+        result = "poor"
+    return f"Academic performance is {result}"
+
+# Determine age group category
+# Calculate a person’s age group given their age
+@app.route("/check-age-group", methods = ["GET"])
+def check_age_group():
+    age = int(request.args.get("age", 0))
+    if age <= 12:
+        result = "child"
+    elif age <= 17:
+        result = "teenager"
+    elif age <= 64:
+        result = "adult"
+    else:
+        result = "senior"
+    return f"Age group is {result}"
+
+# Determine loan eligibility based on credit score
+# Calculate a person’s loan eligibility given creditScore
+@app.route("/check-loan-eligibility", methods = ["GET"])
+def check_loan_eligibility():
+    creditScore = int(request.args.get("creditScore", 0))
+    if creditScore >= 750:
+        result = "high"
+    elif creditScore >= 650:
+        result = "medium"
+    else:
+        result = "low"
+    return f"Loan eligibility is {result}"
+
+# Determine tax bracket based on income
+# Given a person’s income calculate the tax bracket they fall in
+@app.route("/check-tax-bracket", methods = ["GET"])
+def check_tax_bracket():
+    income = int(request.args.get("income", 0))
+    if income <= 500000:
+        result = "10% tax bracket"
+    elif income <= 1000000:
+        result = "15% tax bracket"
+    elif income <= 1500000:
+        result = "20% tax bracket"
+    else:
+        result = "30% tax bracket"
+    return f"You fall under the {result}"
+
+# Determine experience level based on years of work
+# Calculate an individual’s experience based on the yearsOfExperience
+@app.route("/check-experience", methods = ["GET"])
+def check_experience():
+    yearsOfExperience = int(request.args.get("yearsOfExperience", 0))
+    if yearsOfExperience > 5:
+        result = "expert"
+    return f"Experience level is {result}"
 
 
 
