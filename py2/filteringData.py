@@ -186,5 +186,106 @@ def numbers_less_than():
             result.append(number)
     return jsonify(result)
 
+
+employees = [
+  { "name": 'Rahul Gupta', "department": 'HR', "salary": 50000 },
+  { "name": 'Sneha Sharma', "department": 'Finance', "salary": 60000 },
+  { "name": 'Priya Singh', "department": 'Marketing', "salary": 55000 },
+  { "name": 'Amit Kumar', "department": 'IT', "salary": 65000 }
+] 
+
+cars = [
+  { "make": 'Hero', "model": 'Splendor', "mileage": 80 },
+  { "make": 'Bajaj', "model": 'Pulsar', "mileage": 60 },
+  { "make": 'TVS', "model": 'Apache', "mileage": 70 }
+]
+
+songs = [
+  { "title": 'Tum Hi Ho', "genre": 'Romantic', "rating": 4 },
+  { "title": 'Senorita', "genre": 'Pop', "rating": 5 },
+  { "title": 'Dil Chahta Hai', "genre": 'Bollywood', "rating": 3 }
+]
+
+tasks = [
+  { "taskId": 1, "taskName": 'Prepare Presentation', "status": 'pending' },
+  { "taskId": 2, "taskName": 'Attend Meeting', "status": 'in-progress' },
+  { "taskId": 3, "taskName": 'Submit Report', "status": 'completed' }
+]
+
+# Define an endpoint /employees/department/:department using the get method.
+# Implement a function filterByDepartment that returns true if the employee belongs to the specified department.
+# Inside the endpoint, extract the department parameter from the request and use it to filter the employees.
+# Send the filtered employees as a JSON response.
+def filter_employees_by_department(employee, department):
+    return employee["department"] == department
+
+@app.route("/employees/department/<string:department>", methods = ["GET"])
+def get_employees_by_Department(department):
+    result = [employee for employee in employees if filter_employees_by_department(employee, department)]
+    return jsonify(result)
+
+
+# Define an endpoint /bikes/mileage/:minMileage using the get method.
+# Implement a function filterByMileage that returns true if the bike's mileage is greater than the specified value.
+# Inside the endpoint, parse the minMileage parameter from the request and use it to filter the bikes.
+# Send the filtered bikes as a JSON response.
+def filter_cars_by_mileage(car, minMileage):
+    return car["mileage"] > minMileage
+
+@app.route("/bikes/mileage/<int:minMileage>", methods = ["GET"])
+def get_cars_by_mileage(minMileage):
+    result = [car for car in cars if filter_cars_by_mileage(car, minMileage)]
+    return jsonify(result)
+
+# Define an endpoint /bikes/make/:make using the get method.
+# Implement a function filterByMake that returns true if the bike's make matches the specified value.
+# Inside the endpoint, extract the make parameter from the request and use it to filter the bikes.
+# Send the filtered bikes as a JSON response.
+def filter_car_by_make(car, make):
+    return car["make"] == make
+
+@app.route("/bikes/make/<string:make>", methods = ["GET"])
+def get_car_by_make(make):
+    result = [car for car in cars if filter_car_by_make(car, make)]
+    return jsonify(result)
+
+
+# Define an endpoint /songs/rating/:minRating using the get method.
+# Implement a function filterByRating that returns true if the song's rating is higher than the specified value.
+# Inside the endpoint, parse the minRating parameter from the request and use it to filter the songs.
+# Send the filtered songs as a JSON response.
+def filter_songs_by_rating(song, minRating):
+    return song["rating"] > minRating
+
+@app.route("/songs/rating/<int:minRating>", methods = ["GET"])
+def get_songs_by_rating(minRating):
+    result = [song for song in songs if filter_songs_by_rating(song, minRating)]
+    return jsonify(result)
+
+
+# Define an endpoint /songs/genre/:genre using the get method.
+# Implement a function filterByGenre that returns true if the song's genre matches the specified value.
+# Inside the endpoint, extract the genre parameter from the request and use it to filter the songs.
+# Send the filtered songs as a JSON response.
+def filter_songs_by_genre(song, genre):
+    return song["genre"] == genre
+
+@app.route("/songs/genre/<string:genre>", methods = ["GET"])
+def get_filter_songs_by_genre(genre):
+    result = [song for song in songs if filter_songs_by_genre(song, genre)]
+    return jsonify(result)
+
+# Define an endpoint /tasks/status/:status using the get method.
+# Implement a function filterByStatus that returns true if the task's status matches the specified value.
+# Inside the endpoint, extract the status parameter from the request and use it to filter the tasks.
+# Send the filtered tasks as a JSON response.
+def filter_task_by_status(task, status):
+    return task["status"] == status
+
+@app.route("/tasks/status/<string:status>", methods = ["GET"])
+def get_task_by_status(status):
+    result = [task for task in tasks if filter_task_by_status(task, status)]
+    return jsonify(result)
+
 if __name__ == "__main__":
     app.run()
