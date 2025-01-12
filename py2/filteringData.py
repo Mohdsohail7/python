@@ -187,12 +187,12 @@ def numbers_less_than():
     return jsonify(result)
 
 
-employees = [
-  { "name": 'Rahul Gupta', "department": 'HR', "salary": 50000 },
-  { "name": 'Sneha Sharma', "department": 'Finance', "salary": 60000 },
-  { "name": 'Priya Singh', "department": 'Marketing', "salary": 55000 },
-  { "name": 'Amit Kumar', "department": 'IT', "salary": 65000 }
-] 
+# employees = [
+#   { "name": 'Rahul Gupta', "department": 'HR', "salary": 50000 },
+#   { "name": 'Sneha Sharma', "department": 'Finance', "salary": 60000 },
+#   { "name": 'Priya Singh', "department": 'Marketing', "salary": 55000 },
+#   { "name": 'Amit Kumar', "department": 'IT', "salary": 65000 }
+# ] 
 
 cars = [
   { "make": 'Hero', "model": 'Splendor', "mileage": 80 },
@@ -286,6 +286,123 @@ def filter_task_by_status(task, status):
 def get_task_by_status(status):
     result = [task for task in tasks if filter_task_by_status(task, status)]
     return jsonify(result)
+
+
+#  Array of products
+products = [
+  { "name": 'Product A', "inStock": "true" },
+  { "name": 'Product B', "inStock": "false" },
+  { "name": 'Product C', "inStock": "true" },
+  { "name": 'Product D', "inStock": "false" }
+]
+
+# Array of users
+users = [
+  { "name": 'Alice', "age": 25 },
+  { "name": 'Bob', "age": 30 },
+  { "name": 'Charlie', "age": 17 },
+  { "name": 'Dave', "age": 16 }
+]
+
+# Array of products with prices
+productPrices = [
+  { "name": 'Product A', "price": 50 },
+  { "name": 'Product B', "price": 150 },
+  { "name": 'Product C', "price": 200 },
+  { "name": 'Product D', "price": 90 }
+]
+
+#  Array of articles with word counts
+articles = [
+  { "title": 'Article A', "wordCount": 400 },
+  { "title": 'Article B', "wordCount": 600 },
+  { "title": 'Article C', "wordCount": 700 },
+  { "title": 'Article D', "wordCount": 300 }
+]
+
+# Array of movies with ratings
+movies = [
+  { "title": 'Movie A', "rating": 8.5 },
+  { "title": 'Movie B', "rating": 7.0 },
+  { "title": 'Movie C', "rating": 9.0 },
+  { "title": 'Movie D', "rating": 6.5 }
+]
+
+# Array of employees with experience in years
+employees = [
+  { "name": 'Employee A', "experience": 3 },
+  { "name": 'Employee B', "experience": 6 },
+  { "name": 'Employee C', "experience": 10 },
+  { "name": 'Employee D', "experience": 2 }
+]
+
+# Filter In-Stock Products
+# Define the function filterInStockProducts to return only the in-stock products.
+# Declare a GET endpoint /in-stock-products to use the filterInStockProducts function.
+def filter_products_in_stock(product):
+    return product["inStock"] == "true"
+@app.route("/in-stock-products", methods = ["GET"])
+def get_product_in_stock():
+    result = [product for product in products if filter_products_in_stock(product)]
+    return jsonify(result)
+
+# Filter Adults from User List
+# Define the function filterAdults to return only users who are 18 years old or older.
+# Declare a GET endpoint /adult-users to use the filterAdults function.
+def filter_adults(user):
+    return user["age"] > 18
+@app.route("/adult-users", methods = ["GET"])
+def get_adults():
+    result = [user for user in users if filter_adults(user)]
+    return jsonify(result)
+
+# Filter Expensive Products
+# Define the function filterExpensiveProducts to return only the products that cost more than a specified price (read from query).
+# Declare a GET endpoint /expensive-products to use the filterExpensiveProducts function.
+def filter_expensive_product(product, price):
+    return product["price"] > price
+@app.route("/expensive-products", methods = ["GET"])
+def get_expensive_product():
+    price = int(request.args.get("price", 0))
+    result = [product for product in productPrices if filter_expensive_product(product, price)]
+    return jsonify(result)
+
+
+# Filter Articles by Word Count
+# Define the function filterLongArticles to return only the articles with a word count greater than a specified number (read from query).
+# Declare a GET endpoint /long-articles to use the filterLongArticles function.
+def filter_long_article(article, count):
+    return article["wordCount"] > count
+@app.route("/long-articles", methods = ["GET"])
+def get_long_article():
+    minWords = int(request.args.get("minWords", 0))
+    result = [article for article in articles if filter_long_article(article, minWords)]
+    return jsonify(result)
+
+# Filter Movies by Rating
+# Define the function filterHighRatedMovies to return only the movies with a rating higher than a specified rating (read from query).
+# Declare a GET endpoint /high-rated-movies to use the filterHighRatedMovies function.
+def filter_movie_by_rating(movie, rating):
+    return movie["rating"] > rating
+@app.route("/high-rated-movies", methods = ["GET"])
+def get_movie_by_rating():
+    rating = int(request.args.get("rating", 0))
+    result = [movie for movie in movies if filter_movie_by_rating(movie, rating)]
+    return jsonify(result)
+
+# Filter Employees by Experience
+# Define the function filterExperiencedEmployees to return only the employees with experience greater than a specified number of years (read from query).
+# Declare a GET endpoint /experienced-employees to use the filterExperiencedEmployees function.
+def filter_experienced_employees(emp, year):
+    return emp["experience"] > year
+@app.route("/experienced-employees", methods = ["GET"])
+def get_experience_employee():
+    years = int(request.args.get("years", 0))
+    result = [employee for employee in employees if filter_experienced_employees(employee, years)]
+    return jsonify(result)
+
+
+
 
 if __name__ == "__main__":
     app.run()
