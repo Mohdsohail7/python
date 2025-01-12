@@ -92,6 +92,99 @@ def cheaper_products():
     return jsonify(result)
 
 
+# Filter Prime Number
+# Define the function filterPrimeNumbers to return only the prime numbers from an array.
+def filterPrimeNumbers(number):
+    if number <= 1:
+        return False
+    for i in range(2, number):
+        if number % i == 0:
+            return False
+    return True
+
+@app.route("/prime-numbers", methods = ["GET"])
+def prime_numbers():
+    numbers = [-10, -5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    result = []
+    for number in numbers:
+        if filterPrimeNumbers(number):
+            result.append(number)
+    return jsonify(result)
+
+
+# Filter Positive Numbers
+# Define the function filterPositiveNumbers to return only the positive numbers from an array.
+def filterPositiveNumbers(number):
+    return number > 0
+
+@app.route("/positive-numbers", methods = ["GET"])
+def positive_numbers():
+    numbers = [-10, -5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    result = []
+    for number in numbers:
+        if filterPositiveNumbers(number):
+            result.append(number)
+    return jsonify(result)
+
+
+# Filter Negative Numbers
+# Define the function filterNegativeNumbers to return only the negative numbers from an array.
+def filterNegativeNumbers(number):
+    return number < 0
+
+@app.route("/negative-numbers", methods = ["GET"])
+def negative_numbers():
+    numbers = [-10, -5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    result = []
+    for number in numbers:
+        if filterNegativeNumbers(number):
+            result.append(number)
+    return jsonify(result)
+
+
+# Filter Odd Numbers
+# Define the function filterOddNumbers to return only the odd numbers from an array.
+def filterOddNumbers(num):
+    return num % 2 != 0
+
+@app.route("/odd-numbers",methods = ["GET"])
+def odd_numbers():
+    numbers = [-10, -5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    result = []
+    for num in numbers:
+        if filterOddNumbers(num):
+            result.append(num)
+    return jsonify(result)
+
+# Filter Numbers Greater Than a Given Value
+# Define the function filterNumbersGreaterThan to return only the numbers greater than a specified value (read from query).
+def filterNumbersGreaterThan(number,value):
+    return number > value
+
+@app.route("/numbers-greater-than", methods = ["GET"])
+def numbers_greater_than():
+    value = int(request.args.get("value", 0))
+    numbers = [-10, -5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    result = []
+    for number in numbers:
+        if filterNumbersGreaterThan(number, value):
+            result.append(number)
+    return jsonify(result)
+
+# Filter Numbers Less Than a Given Value
+# Define the function filterNumbersLessThan to return only the numbers less than a specified value (read from query).
+def filterNumbersLessThan(number, value):
+    return number < value
+
+@app.route("/numbers-less-than", methods = ["GET"])
+def numbers_less_than():
+    value = int(request.args.get("value", 0))
+    numbers = [-10, -5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    result = []
+    for number in numbers:
+        if filterNumbersLessThan(number, value):
+            result.append(number)
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run()
