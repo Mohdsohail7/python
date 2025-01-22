@@ -21,6 +21,21 @@ githubPublicData = {
 	"joinedOn": 'Sep 2018',
 }
 
+
+movies = [
+    {'id': 1, 'title': 'Inception', 'genre': 'Sci-Fi', 'available': True},
+    {'id': 2, 'title': 'Titanic', 'genre': 'Romance', 'available': False},
+    {'id': 3, 'title': 'The Dark Knight', 'genre': 'Action', 'available': True},
+    {'id': 4, 'title': 'The Matrix', 'genre': 'Sci-Fi', 'available': True},
+]
+
+reviews = [
+    {'id': 1, 'product_id': 1, 'rating': 4, 'content': 'Great laptop for work.'},
+    {'id': 2, 'product_id': 2, 'rating': 5, 'content': 'Excellent sound quality.'},
+    {'id': 3, 'product_id': 3, 'rating': 3, 'content': 'Works fine but feels cheap.'},
+    {'id': 4, 'product_id': 4, 'rating': 4, 'content': 'Good value for money.'},
+]
+
 # Create an endpoint that returns the details of a book stored on the server.
 def get_all_book(book):
     return book
@@ -154,6 +169,93 @@ def github_repo_url():
     result = getRepoUrl(repoName)
     return jsonify({ "repoUrl": result })
 
+
+# Update Movie Availability
+# Create an endpoint /movies/update to update the availability of a movie by its ID.
+# Create a function updateMovieAvailability to modify the availability status of a movie.
+def updateMovieAvailability(movies, id,availablitity):
+    for movie in movies:
+        if movie["id"] == id:
+            movie["available"] = availablitity
+            return movie
+    return None
+
+@app.route("/movies/update", methods = ["GET"])
+def update_movie():
+    id = int(request.args.get("id", 0))
+    available = request.args.get("available", "false").lower() == "true"
+    result = updateMovieAvailability(movies,id,available)
+    return jsonify({ "Updated Movie": result })
+
+
+# Delete Movie by ID
+# Create an endpoint /movies/delete to delete a movie by its id.
+# Create a function deleteMovieById to remove the movie from the list by id.
+def deleteMovieById(movies, id):
+    for movie in movies:
+        if movie["id"] == id:
+            movies.remove(movie)
+            break
+    return movies
+
+@app.route("/movies/delete", methods = ["GET"])
+def delete_movies():
+    id = int(request.args.get("id", 0))
+    result = deleteMovieById(movies, id)
+    return jsonify({ "Remaining Movies": result })
+
+
+# Update Review Content
+# Create an endpoint /reviews/update to update the content of a review by its id.
+# Create a function updateReviewContent to modify the review's content based on id.
+def updateReviewContent(reviews, id, content):
+    for review in reviews:
+        if review["id"] == id:
+            review["content"] = content
+            return review
+    return None
+
+@app.route("/reviews/update", methods = ["GET"])
+def reviews_update():
+    id = int(request.args.get("id", 0))
+    content = request.args.get("content", 0)
+    result = updateReviewContent(reviews, id, content)
+    return jsonify({ "Updated Review": result })
+
+
+# Delete Review by Product ID
+# Create an endpoint /reviews/delete to delete all reviews associated with a particular product_id.
+# Create a function deleteReviewsByProductId to remove all reviews for a given product.
+def deleteReviewsByProductId(reviews, product_id):
+    for review in reviews:
+        if review['product_id'] == product_id:
+            reviews.remove(review)
+            break
+    return reviews
+
+@app.route("/reviews/delete", methods = ["GET"])
+def reviews_delete():
+    product_id = int(request.args.get("product_id", 0))
+    result = deleteReviewsByProductId(reviews, product_id)
+    return jsonify({ "Remaining Reviews": result })
+
+
+# Update Movie Genre
+# Create an endpoint /movies/update-genre to update the genre of a movie by its id.
+# Create a function updateMovieGenre to change the genre of a movie.
+def updateMovieGenre(movies, id, genre):
+    for movie in movies:
+        if movie["id"] == id:
+            movie["genre"] = genre
+            return movie
+    return None
+
+@app.route("/movies/update-genre", methods = ["GET"])
+def movies_update_genre():
+    id = int(request.args.get("id", 0))
+    genre = request.args.get("genre", 0)
+    reuslt = updateMovieGenre(movies, id, genre)
+    return jsonify({ "Updated Movie": reuslt })
 
 
 
